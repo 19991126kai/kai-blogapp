@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   resources :accounts, only: [:show] do
     resources :follows, only: [:create]
+    resources :unfollows, only: [:create]
   end
 
   resource :profile, only: [:show, :edit, :update]
