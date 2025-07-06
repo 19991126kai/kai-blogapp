@@ -3,3 +3,5 @@
 //= link_tree ../builds
 //= link application.js
 //= link jquery/dist/jquery.js
+//= link @rails--ujs.js
+//= link articles/show.js
