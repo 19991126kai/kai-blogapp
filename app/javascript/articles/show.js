@@ -10,23 +10,32 @@ const handleHeartDisplay = (hasLiked) => {
   }
 };
 
+const handleCommentForm = () => {
+  $(".show-comment-form").on("click", () => {
+    $(".show-comment-form").addClass("hidden");
+    $(".comment-text-area").removeClass("hidden");
+  });
+};
+
+const appendNewComment = (comment) => {
+  $(".comments-container").append(
+    `<div class="article_comment"><p>${comment.content}</p></div>`
+  );
+};
+
 document.addEventListener("turbo:load", () => {
   const dataset = $("#article-show").data();
   const articleId = dataset.articleId;
 
   axios.get(`/articles/${articleId}/comments`).then((response) => {
     const comments = response.data;
+
     comments.forEach((comment) => {
-      $(".comments-container").append(
-        `<div class="article_comment"><p>${comment.content}</p></div>`
-      );
+      appendNewComment(comment);
     });
   });
 
-  $(".show-comment-form").on("click", () => {
-    $(".show-comment-form").addClass("hidden");
-    $(".comment-text-area").removeClass("hidden");
-  });
+  handleCommentForm();
 
   $(".add-comment-button").on("click", () => {
     const content = $("#comment_content").val();
@@ -40,9 +49,8 @@ document.addEventListener("turbo:load", () => {
         })
         .then((response) => {
           const comment = response.data;
-          $(".comments-container").append(
-            `<div class="article_comment"><p>${comment.content}</p></div>`
-          );
+
+          appendNewComment(comment);
           $("#comment_content").val("");
         })
         .catch((e) => {
@@ -54,6 +62,7 @@ document.addEventListener("turbo:load", () => {
 
   axios.get(`/articles/${articleId}/like`).then((response) => {
     const hasLiked = response.data.hasLiked;
+
     handleHeartDisplay(hasLiked);
   });
 
