@@ -14,6 +14,44 @@ document.addEventListener("turbo:load", () => {
   const dataset = $("#article-show").data();
   const articleId = dataset.articleId;
 
+  axios.get(`/articles/${articleId}/comments`).then((response) => {
+    const comments = response.data;
+    comments.forEach((comment) => {
+      $(".comments-container").append(
+        `<div class="article_comment"><p>${comment.content}</p></div>`
+      );
+    });
+  });
+
+  $(".show-comment-form").on("click", () => {
+    $(".show-comment-form").addClass("hidden");
+    $(".comment-text-area").removeClass("hidden");
+  });
+
+  $(".add-comment-button").on("click", () => {
+    const content = $("#comment_content").val();
+
+    if (!content) {
+      window.alert("コメントを入力してください");
+    } else {
+      axios
+        .post(`/articles/${articleId}/comments`, {
+          comment: { content: content },
+        })
+        .then((response) => {
+          const comment = response.data;
+          $(".comments-container").append(
+            `<div class="article_comment"><p>${comment.content}</p></div>`
+          );
+          $("#comment_content").val("");
+        })
+        .catch((e) => {
+          window.alert("Error");
+          console.log(e);
+        });
+    }
+  });
+
   axios.get(`/articles/${articleId}/like`).then((response) => {
     const hasLiked = response.data.hasLiked;
     handleHeartDisplay(hasLiked);
