@@ -1,6 +1,8 @@
-import axios from "axios";
-import Rails from "@rails/ujs";
-axios.defaults.headers.common["X-CSRF-Token"] = Rails.csrfToken();
+import axios from "../modules/axios";
+import {
+  listenInactiveHeartEvent,
+  listenActiveHeartEvent,
+} from "../modules/handle_heart";
 
 const handleHeartDisplay = (hasLiked) => {
   if (hasLiked) {
@@ -66,33 +68,6 @@ document.addEventListener("turbo:load", () => {
     handleHeartDisplay(hasLiked);
   });
 
-  $(".inactive-heart").on("click", () => {
-    axios
-      .post(`/articles/${articleId}/like`)
-      .then((response) => {
-        if (response.data.status === "ok") {
-          $(".active-heart").removeClass("hidden");
-          $(".inactive-heart").addClass("hidden");
-        }
-      })
-      .catch((e) => {
-        window.alert("Error");
-        console.log(e);
-      });
-  });
-
-  $(".active-heart").on("click", () => {
-    axios
-      .delete(`/articles/${articleId}/like`)
-      .then((response) => {
-        if (response.data.status === "ok") {
-          $(".active-heart").addClass("hidden");
-          $(".inactive-heart").removeClass("hidden");
-        }
-      })
-      .catch((e) => {
-        window.alert("Error");
-        console.log(e);
-      });
-  });
+  listenInactiveHeartEvent(articleId);
+  listenActiveHeartEvent(articleId);
 });
