@@ -64,6 +64,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'erb2haml'
+  gem 'letter_opener'
+  gem 'letter_opener_web', '~> 3.0'
   gem 'web-console'
 end
 
