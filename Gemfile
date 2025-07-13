@@ -45,6 +45,7 @@ gem 'hamlit'
 gem 'importmap-rails'
 gem 'psych', '~> 3.1'
 gem 'sassc-rails'
+gem 'sidekiq'
 gem 'webpacker', '~> 4.0', '>= 4.0.7'
 
 group :development, :test do
