@@ -46,7 +46,7 @@ gem 'importmap-rails'
 gem 'psych', '~> 3.1'
 gem 'sassc-rails'
 gem 'sidekiq'
-gem 'webpacker', '~> 4.0', '>= 4.0.7'
+gem 'webpacker', '~> 5.4'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
