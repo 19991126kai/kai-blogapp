@@ -29,7 +29,7 @@ document.addEventListener("turbo:load", () => {
   const dataset = $("#article-show").data();
   const articleId = dataset.articleId;
 
-  axios.get(`/articles/${articleId}/comments`).then((response) => {
+  axios.get(`/api/articles/${articleId}/comments`).then((response) => {
     const comments = response.data;
 
     comments.forEach((comment) => {
@@ -46,7 +46,7 @@ document.addEventListener("turbo:load", () => {
       window.alert("コメントを入力してください");
     } else {
       axios
-        .post(`/articles/${articleId}/comments`, {
+        .post(`/api/articles/${articleId}/comments`, {
           comment: { content: content },
         })
         .then((response) => {
@@ -62,7 +62,7 @@ document.addEventListener("turbo:load", () => {
     }
   });
 
-  axios.get(`/articles/${articleId}/like`).then((response) => {
+  axios.get(`/api/articles/${articleId}/like`).then((response) => {
     const hasLiked = response.data.hasLiked;
 
     handleHeartDisplay(hasLiked);
