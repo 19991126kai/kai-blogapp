@@ -1,17 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe Article, type: :model do
-  it 'タイトルと内容が入力されていれば、記事を保存できる' do
-    user = User.create!({
-      email: 'test@example.com',
-      password: 'password'
-    })
+  let!(:user) { create(:user) }
 
-    article = user.articles.build({
-      title: Faker::Lorem.characters(number: 10),
-      content: Faker::Lorem.characters(number: 300)
-    })
+  context 'タイトルと内容が入力されている場合' do
+    let!(:article) { build(:article, user: user) }
 
-    expect(article).to be_valid
+    it 'タイトルと内容が入力されていれば、記事を保存できる' do
+      expect(article).to be_valid
+    end
+  end
+
+  context 'タイトルの文字が1文字の場合' do
+    let!(:article) { build(:article, title: Faker::Lorem.characters(number: 1), user: user) }
+
+  before do
+    article.save
+  end
+
+    it '記事を保存できない' do
+      expect(article.errors.messages[:title][0]).to eq('は2文字以上で入力してください')
+    end
   end
 end
